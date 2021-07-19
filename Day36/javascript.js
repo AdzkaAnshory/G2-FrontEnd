@@ -1,22 +1,3 @@
-const add = document.querySelector('#addButton');
-    const save = document.querySelector('#saveButton');
-
-    add.addEventListener('click', function (e) {
-    const table = document.querySelector('table > tbody');
-            table.innerHTML = `<form action="javascript:void(0);" method="POST" onsubmit="app.Add()"> 
-            <tr>
-                <td><input type="text" id="add-name" placeholder="Nama"></td>
-                <td><input type="text" id="posisi" placeholder="Position"></td>
-                <td><input type="text" id="office" placeholder="Office"></td>
-                <td><input type="text" id="age" placeholder="Age"></td>
-                <td><input type="text" id="start" placeholder="YYYY/MM/DD"></td>
-                <td><input type="text" id="salary" placeholder="Salary"></td>
-                <td><input type="submit" value="Add"></td>
-            </tr>
-        </form>`+table.innerHTML;
-    });
-
-const app = new function() {
     this.el = document.getElementById('user');
     this.user = [ {nama:"Tiger Nixon", posisi:"System Architect", office:"Edinburgh",age:61,start:"2011/04/25",salary:"$320,800"},
     {nama:"Tiger Nixon", posisi:"System Architect", office:"Edinburgh",age:61,start:"2011/04/25",salary:"$320,800"},
@@ -103,30 +84,34 @@ const app = new function() {
                 data += '<td>' + this.user[i].age + '</td>';
                 data += '<td>' + this.user[i].start + '</td>';
                 data += '<td>' + this.user[i].salary + '</td>';
-                data += '<td><button class="btn btn-info" onclick="app.Edit(' + i + ')">Edit</button></td>';
-                data += '<td><button class="btn btn-danger" onclick="app.Delete(' + i + ')">Delete</button></td>';
+                data += '<td><button class="btn btn-info" onclick="Edit(' + i + ')">Edit</button></td>';
+                data += '<td><button class="btn btn-danger" onclick="Delete(' + i + ')">Delete</button></td>';
                 data += '</tr>';
             }
         }
         this.Count(this.user.length);
         return this.el.innerHTML = data;
     };
-    // const newtable = add.addEventListener('click', function (e) {
-    //     console.log("e:", e);
-    //     table1.innerHTML += `
-    //         <tr>
-    //           <td><input type="text" id="nama" name="nama" value="Name"/></td>
-    //           <td><input type="text" id="posisi" name="posisi" value="Posisi"/></td>
-    //           <td><input type="text" id="office" name="office" value="Office"/></td>
-    //           <td><input type="text" id="age" name="age" value="Age"/></td>
-    //           <td><input type="text" id="start" name="start" value="YYYY/MM/DD"/></td>
-    //           <td><input type="text" id="salary" name="salary" value="$Salary"/></td>
-    //         </tr>
-    //     `
-    //     return table1
-    // })
+    const add = document.querySelector('#addButton');
+    const save = document.querySelector('#saveButton');
+
+    add.addEventListener('click', function (e) {
+    const table = document.querySelector('table > tbody');
+            table.innerHTML = `
+            <tr>
+                <td><input type="text" id="add-name" placeholder="Nama" value="nama"></td>
+                <td><input type="text" id="posisi" placeholder="Position" value="posisi"></td>
+                <td><input type="text" id="office" placeholder="Office" value="office"></td>
+                <td><input type="text" id="age" placeholder="Age" value="age"></td>
+                <td><input type="text" id="start" placeholder="YYYY/MM/DD" value="YYYY/MM/DD"></td>
+                <td><input type="text" id="salary" placeholder="Salary" value="salary"></td>
+                <td><button class="w3-button w3-green rad" id="saveButton" onclick="Add()">Save</button></td>
+            </tr>`+table.innerHTML;
+    });
     
-    this.Add = function () {
+    // save.addEventListener('click', this.Add);
+        
+        this.Add = function () {
         el1 = document.getElementById('add-name');
         el2 = document.getElementById('posisi');
         el3 = document.getElementById('office');
@@ -140,10 +125,16 @@ const app = new function() {
         const age = el4.value;
         const start = el5.value;
         const salary = el6.value;
+        console.log(name);
+        console.log(posisi);
+        console.log(office);
+        console.log(age);
+        console.log(start);
+        console.log(salary);
+        const obj = {nama: ""+name+"", posisi:""+posisi+"", office:""+office+"",age:age,start:""+start+"",salary:"$"+salary+""};
         if (name && posisi && office && age && start && salary) {
-            const obj = {nama: ""+name+"", posisi:""+posisi+"", office:""+office+"",age:age,start:""+start+"",salary:"$"+salary+""};
             // Add the new value
-            this.user.push(obj.trim());
+            this.user.push(obj);
             // Reset input value
             el.value = "";
             // Dislay the new list
@@ -152,18 +143,34 @@ const app = new function() {
     };
         
     this.Edit = function (item) {
-        const el = document.getElementById('edit-name');
+        const el1 = document.getElementById('edit-name');
+        const el2 = document.getElementById('edit-posisi');
+        const el3 = document.getElementById('edit-office');
+        const el4 = document.getElementById('edit-age');
+        const el5 = document.getElementById('edit-start');
+        const el6 = document.getElementById('edit-salary');
         // Display value in the field
-        el.value = this.user[item];
+        el1.value = this.user[item].nama;
+        el2.value = this.user[item].posisi;
+        el3.value = this.user[item].office;
+        el4.value = this.user[item].age;
+        el5.value = this.user[item].start;
+        el6.value = this.user[item].salary;
         // Display fields
         document.getElementById('spoiler').style.display = 'block';
         self = this;
         document.getElementById('saveEdit').onsubmit = function() {
             // Get value
-            let country = el.value;
-            if (country) {
+            const name = el1.value;
+            const posisi = el2.value;
+            const office = el3.value;
+            const age = el4.value;
+            const start = el5.value;
+            const salary = el6.value;
+            const obj = {nama: ""+name+"", posisi:""+posisi+"", office:""+office+"",age:age,start:""+start+"",salary:"$"+salary+""};
+            if (name && posisi && office && age && start && salary) {
                 // Edit value
-                self.user.splice(item, 1, country.trim());
+                self.user.splice(item, 1, obj);
                 // Display the new list
                 self.FetchAll();
                 // Hide fields
@@ -178,10 +185,12 @@ const app = new function() {
         // Display the new list
         this.FetchAll();
     };
-    
-}
-app.FetchAll();
 
+function init(){
+    FetchAll();
+}
+
+init();
 function CloseInput() {
     document.getElementById('spoiler').style.display = 'none';
 }
