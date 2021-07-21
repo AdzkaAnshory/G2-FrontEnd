@@ -139,7 +139,7 @@
     const save = document.querySelector('#saveButton');
 
     add.addEventListener('click', e => {
-    const table = document.querySelector('table > tbody');
+    const table = document.getElementById('tbodyhere');
             table.innerHTML = `
             <tr>
                 <td><input type="text" id="namePhoto" placeholder="Photo Name" value="Photo Name"></td>
@@ -147,7 +147,7 @@
                 <td><input type="text" id="user" placeholder="User" value="User"></td>
                 <td><input type="text" id="url" placeholder="Url Photo" value="Url Photo"></td>
                 <td><input type="text" id="urlthumb" placeholder="Url Thumbnail" value="Url Thumbnail"></td>
-                <td><button class="w3-button w3-green rad" id="saveButton" onclick="Add()">Save</button></td>
+                <td><button class="w3-button w3-green rad" id="saveButton" onclick="this.Add()">Save</button></td>
             </tr>`+table.innerHTML;
     });
     
